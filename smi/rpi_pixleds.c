@@ -70,8 +70,8 @@
 #endif
 
 // Structures for mapped I/O devices, and non-volatile memory
-extern MEM_MAP gpio_regs, dma_regs;
-MEM_MAP vc_mem, clk_regs, smi_regs;
+extern MEM_MAP gpio_regs, clk_regs, dma_regs;
+MEM_MAP vc_mem, smi_regs;
 
 // Pointers to SMI registers
 volatile SMI_CS_REG  *smi_cs;
@@ -122,41 +122,44 @@ void init_smi(int width, int ns, int setup, int hold, int strobe);
 void setup_smi_dma(MEM_MAP *mp, int nsamp);
 void start_smi(MEM_MAP *mp);
 
-int main(int argc, char *argv[])
+//int main(int argc, char *argv[])
+int test()
 {
     int args=0, n, oset=0;
-
-    while (argc > ++args)               // Process command-line args
-    {
-        if (argv[args][0] == '-')
-        {
-            switch (toupper(argv[args][1]))
-            {
-            case 'N':                   // -N: number of LEDs per channel
-                if (args >= argc-1)
-                    fprintf(stderr, "Error: no numeric value\n");
-                else
-                    chan_ledcount = atoi(argv[++args]);
-                break;
-            case 'T':                   // -T: test mode
-                testmode = 1;
-                break;
-            default:                    // Otherwise error
-                printf("Unrecognised option '%c'\n", argv[args][1]);
-                printf("Options:\n"
-                       "  -n num    number of LEDs per channel\n"\
-                       "  -t        Test mode (flash LEDs)\n"\
-                      );
-                return(1);
-            }
-        }
-        else if (chan_num<LED_NCHANS && hexdig(argv[args][0])>=0 &&
-                 (n=str_rgb(argv[args], rgb_data, chan_num))>0)
-        {
-            chan_ledcount = n > chan_ledcount ? n : chan_ledcount;
-            chan_num++;
-        }
-    }
+//
+//    while (argc > ++args)               // Process command-line args
+//    {
+//        if (argv[args][0] == '-')
+//        {
+//            switch (toupper(argv[args][1]))
+//            {
+//            case 'N':                   // -N: number of LEDs per channel
+//                if (args >= argc-1)
+//                    fprintf(stderr, "Error: no numeric value\n");
+//                else
+//                    chan_ledcount = atoi(argv[++args]);
+//                break;
+//            case 'T':                   // -T: test mode
+//                testmode = 1;
+//                break;
+//            default:                    // Otherwise error
+//                printf("Unrecognised option '%c'\n", argv[args][1]);
+//                printf("Options:\n"
+//                       "  -n num    number of LEDs per channel\n"\
+//                       "  -t        Test mode (flash LEDs)\n"\
+//                      );
+//                return(1);
+//            }
+//        }
+//        else if (chan_num<LED_NCHANS && hexdig(argv[args][0])>=0 &&
+//                 (n=str_rgb(argv[args], rgb_data, chan_num))>0)
+//        {
+//            chan_ledcount = n > chan_ledcount ? n : chan_ledcount;
+//            chan_num++;
+//        }
+//    }
+testmode=1;
+chan_ledcount = 10;
     signal(SIGINT, terminate);
     map_devices();
     init_smi(LED_NCHANS>8 ? SMI_16_BITS : SMI_8_BITS, SMI_TIMING);

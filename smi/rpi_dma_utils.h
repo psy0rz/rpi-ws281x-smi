@@ -16,7 +16,7 @@
 //
 
 // Location of peripheral registers in physical memory
-#define PHYS_REG_BASE   PI_01_REG_BASE
+#define PHYS_REG_BASE   PI_23_REG_BASE
 #define PI_01_REG_BASE  0x20000000  // Pi Zero or 1
 #define PI_23_REG_BASE  0x3F000000  // Pi 2 or 3
 #define PI_4_REG_BASE   0xFE000000  // Pi 4

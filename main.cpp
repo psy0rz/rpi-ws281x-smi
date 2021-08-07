@@ -1,5 +1,8 @@
 #include <napi.h>
 #include <stdio.h>
+#include "smileds.h"
+
+
 
 static void ArrayConsumer(const int32_t* array, size_t length) {
   for (size_t index = 0; index < length; index++) {
@@ -23,6 +26,8 @@ static Napi::Value AcceptArrayBuffer(const Napi::CallbackInfo& info) {
 
   ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()),
                 buf.ByteLength() / sizeof(int32_t));
+
+  test();
 
   return info.Env().Undefined();
 }

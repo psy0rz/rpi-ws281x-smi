@@ -12,18 +12,18 @@ string(REPLACE "\n" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 string(REPLACE "\"" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 
 
-file(GLOB SOURCE_FILES main.cpp ./smi/rpi_dma_utils.c)
+file(GLOB SOURCE_FILES main.cpp smi/rpi_dma_utils.c smileds.c)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC} smileds.c smileds.h)
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO
-        )
+#set_target_properties(${PROJECT_NAME} PROPERTIES
+#        CXX_STANDARD 20
+#        CXX_STANDARD_REQUIRED YES
+#        CXX_EXTENSIONS NO
+#        )
 
 
 
