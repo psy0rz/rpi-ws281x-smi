@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="d6996196-6a21-4c30-929c-de347ed89bcc" name="cmake-js" defaultType="TOOL">
+      <configuration id="ada83998-1274-4060-b2c9-dae68c36d8da" name="cmake-js">
+        <build type="TOOL">
+          <tool actionId="Tool_External Tools_cmake-js build" />
+        </build>
+        <clean type="TOOL">
+          <tool actionId="Tool_External Tools_cmake-js clean" />
+        </clean>
+      </configuration>
+    </target>
+  </component>
+</project>

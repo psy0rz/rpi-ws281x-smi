@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/rpi-ws281x-smi.iml" filepath="$PROJECT_DIR$/.idea/rpi-ws281x-smi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/rpi-ws281x-smi2.iml" filepath="$PROJECT_DIR$/.idea/rpi-ws281x-smi2.iml" />
     </modules>
   </component>
 </project>

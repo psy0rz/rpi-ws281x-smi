@@ -30,5 +30,8 @@ static Napi::Value AcceptArrayBuffer(const Napi::CallbackInfo& info) {
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports["AcceptArrayBuffer"] = Napi::Function::New(env, AcceptArrayBuffer);
   return exports;
+
 }
 
+
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)
