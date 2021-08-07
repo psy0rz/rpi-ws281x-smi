@@ -1,5 +1,5 @@
 #include <napi.h>
-#include <stdio.h>
+#include <cstdio>
 #include "smileds.h"
 
 
@@ -10,7 +10,7 @@ static void ArrayConsumer(const int32_t* array, size_t length) {
   }
 }
 
-static Napi::Value AcceptArrayBuffer(const Napi::CallbackInfo& info) {
+static  Napi::Value AcceptArrayBuffer (const Napi::CallbackInfo& info) {
   if (info.Length() != 1) {
     Napi::Error::New(info.Env(), "Expected exactly one argument")
         .ThrowAsJavaScriptException();
@@ -27,7 +27,7 @@ static Napi::Value AcceptArrayBuffer(const Napi::CallbackInfo& info) {
   ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()),
                 buf.ByteLength() / sizeof(int32_t));
 
-  test();
+  init(10);
 
   return info.Env().Undefined();
 }
