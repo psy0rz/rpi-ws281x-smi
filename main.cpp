@@ -27,7 +27,10 @@ static  Napi::Value AcceptArrayBuffer (const Napi::CallbackInfo& info) {
   ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()),
                 buf.ByteLength() / sizeof(int32_t));
 
-  init(10);
+
+
+  test();
+
 
   return info.Env().Undefined();
 }

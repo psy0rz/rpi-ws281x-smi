@@ -10,7 +10,11 @@ extern "C"
 {
 #endif
 
-void init(int chan_led_count);
+    void init(int chan_led_count);
+    void setPixel(uint8_t channel, uint16_t pixel, uint32_t rgb);
+    void send(int chan_ledcount );
+    void test();
+
 
 #ifdef __cplusplus
 }

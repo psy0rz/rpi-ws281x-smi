@@ -167,6 +167,20 @@ void start_smi(MEM_MAP *mp)
     smi_cs->start = 1;
 }
 
+// Swap adjacent bytes in transmit data
+void swap_bytes(void *data, int len)
+{
+    uint16_t *wp = (uint16_t *)data;
+
+    len = (len + 1) / 2;
+    while (len-- > 0)
+    {
+        *wp = __builtin_bswap16(*wp);
+        wp++;
+    }
+}
+
+
 
 void init(int chan_ledcount)
 {
@@ -178,13 +192,69 @@ void init(int chan_ledcount)
            chan_ledcount, chan_ledcount==1 ? "" : "s", LED_NCHANS);
 }
 
-void setPixel()
-{
 
+
+
+//set rgb values for a specific channel and pixel
+void setPixel(uint8_t channel, uint16_t pixel, uint32_t rgb)
+{
+    TXDATA_T *tx_offset=&tx_buffer[LED_TX_OSET(pixel)];
+
+    // For each bit of the 24-bit RGB values..
+    for (uint16_t n=0; n<LED_NBITS; n++)
+    {
+        // 1st always is a high pulse on all lines
+        //XXX: do this one time ever?
+        tx_offset[0] = (TXDATA_T)0xffff;
+
+        // 2nd is the actual bit
+//        if (rgb & (1 << n))
+//            tx_offset[1]|= ( 1 << channel );
+        if (rgb )
+            tx_offset[1]|= ( 1 << channel );
+
+        // 3rd alawys is a low pulse on all lines
+        tx_offset[2] = 0;
+
+        tx_offset += BIT_NPULSES;
+
+    }
 }
 
 
-void send()
+void send(int chan_ledcount )
 {
+#if LED_NCHANS <= 8
+    swap_bytes(tx_buffer, TX_BUFF_SIZE(chan_ledcount));
+#endif
+    memcpy(txdata, tx_buffer, TX_BUFF_SIZE(chan_ledcount));
+    start_smi(&vc_mem);
+}
+
+
+void test()
+{
+    const int leds=10;
+
+    init(leds);
+
+    int on=0;
+    while(1)
+    {
+        on=(on+1)%leds;
+        for (int l=0; l<leds; l++)
+        {
+
+            for (int c=0; c<8; c++)
+            {
+                if (l==on)
+                    setPixel(c,l,0xffffff);
+                else
+                    setPixel(c,l,0x0);
+            }
+        }
+        send(leds);
+        usleep(1000000/60);
+    }
 
 }
