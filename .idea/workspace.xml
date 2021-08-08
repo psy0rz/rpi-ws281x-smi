@@ -11,13 +11,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="eerste eigen test">
+    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="eigen werkt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smi/rpi_pixleds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smi/rpi_pixleds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/smileds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smileds.h" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628326619853</updated>
-      <workItem from="1628326622129" duration="18341000" />
+      <workItem from="1628326622129" duration="18763000" />
     </task>
     <task id="LOCAL-00001" summary="bla">
       <created>1628345636325</created>
@@ -105,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628430663371</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="eigen werkt">
+      <created>1628434555759</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1628434555759</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +128,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bla" />
     <MESSAGE value="eerste eigen test" />
-    <option name="LAST_COMMIT_MESSAGE" value="eerste eigen test" />
+    <MESSAGE value="eigen werkt" />
+    <option name="LAST_COMMIT_MESSAGE" value="eigen werkt" />
   </component>
 </project>
