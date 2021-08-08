@@ -18,6 +18,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
+#target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
+target_compile_options(${PROJECT_NAME} PRIVATE -Werror)
+
 #set_target_properties(${PROJECT_NAME} PROPERTIES
 #        CXX_STANDARD 20
 #        CXX_STANDARD_REQUIRED YES

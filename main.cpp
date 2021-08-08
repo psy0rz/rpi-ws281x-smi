@@ -5,9 +5,9 @@
 
 
 static void ArrayConsumer(const int32_t* array, size_t length) {
-  for (size_t index = 0; index < length; index++) {
-    fprintf(stderr, "array[%lu] = %d\n", index, array[index]);
-  }
+//  for (size_t index = 0; index < length; index++) {
+//    fprintf(stderr, "array[%lu] = %d\n", index, array[index]);
+//  }
 }
 
 static  Napi::Value AcceptArrayBuffer (const Napi::CallbackInfo& info) {

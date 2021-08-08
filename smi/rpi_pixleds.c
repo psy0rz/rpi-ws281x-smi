@@ -123,7 +123,7 @@ void setup_smi_dma(MEM_MAP *mp, int nsamp);
 void start_smi(MEM_MAP *mp);
 
 //int main(int argc, char *argv[])
-int test()
+int pixtest()
 {
     int args=0, n, oset=0;
 //
