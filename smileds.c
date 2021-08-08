@@ -190,6 +190,7 @@ void init(int chan_ledcount) {
 void set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
     TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
 
+//    printf("setpixel %d %d\n", channel, pixel);
     // For each bit of the 24-bit RGB values..
     for (uint16_t n = 0; n < LED_NBITS; n++) {
         // 1st always is a high pulse on all lines
