@@ -1,17 +1,22 @@
 const binding = require('bindings')('rpi_ws281x_smi');
 
 console.log("running test")
-const array = new Int32Array(10);
+binding.ledsInit(256)
 
-array[0] = 19;
-array[1] = -41;
-array[2] = 98;
-array[3] = -922;
-array[4] = 587;
-array[5] = 12;
-array[6] = 221;
-array[7] = 49;
-array[8] = -96;
-array[9] = -1;
+let nr=0;
+setInterval(()=>{
 
-binding.AcceptArrayBuffer(array.buffer);
+    nr=(nr+1)%60;
+    for (let l=0; l<256; l++) {
+        for (let c = 0; c < 8; c++) {
+
+            // if (nr == l)
+            //     binding.ledsSetPixel(c, l, 0x1);
+            // else
+                binding.ledsSetPixel(c, l, 0x0);
+        }
+    }
+    binding.ledsSend();
+
+},1000/60);
+

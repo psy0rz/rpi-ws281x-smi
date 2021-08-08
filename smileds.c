@@ -4,7 +4,6 @@
 //
 
 #define _DEFAULT_SOURCE
-
 #include <stdio.h>
 #include <signal.h>
 #include <stdint.h>
@@ -12,6 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #include "smileds.h"
 #include "smi/rpi_dma_utils.h"
@@ -31,7 +31,6 @@
 #define LED_POSTBITS    4   // Number of zero bits after LED data
 #define BIT_NPULSES     3   // Number of O/P pulses per LED bit
 #define CHAN_MAXLEDS    512  // Maximum number of LEDs per channel
-#define CHASE_MSEC      100 // Delay time for chaser light test
 #define REQUEST_THRESH  2   // DMA request threshold
 #define DMA_CHAN        10  // DMA channel to use
 
@@ -70,22 +69,11 @@ volatile SMI_DCD_REG *smi_dcd;
 #define TX_BUFF_SIZE(n)     (TX_BUFF_LEN(n) * sizeof(TXDATA_T))
 #define VC_MEM_SIZE         (PAGE_SIZE + TX_BUFF_SIZE(CHAN_MAXLEDS))
 
-// RGB values for test mode (1 value for each of 16 channels)
-int on_rgbs[16] = {0xff0000, 0x00ff00, 0x0000ff, 0xffffff,
-                   0xff4040, 0x40ff40, 0x4040ff, 0x404040,
-                   0xff0000, 0x00ff00, 0x0000ff, 0xffffff,
-                   0xff4040, 0x40ff40, 0x4040ff, 0x404040};
-int off_rgbs[16];
 
-#if TX_TEST
-// Data for simple transmission test
-TXDATA_T tx_test_data[] = {1, 2, 3, 4, 5, 6, 7, 0};
-#endif
-
+uint16_t  led_count=0;                  //used number of leds
 TXDATA_T *txdata;                       // Pointer to uncached Tx data buffer
 TXDATA_T tx_buffer[TX_BUFF_LEN(CHAN_MAXLEDS)];  // Tx buffer for assembling data
-int rgb_data[CHAN_MAXLEDS][LED_NCHANS]; // RGB data
-int chan_num;                           // Current channel for data I/P
+
 
 // Map GPIO, DMA and SMI registers into virtual mem (user space)
 // If any of these fail, program will be terminated
@@ -175,26 +163,38 @@ void swap_bytes(void *data, int len) {
 }
 
 
-void init(int chan_ledcount) {
+bool leds_init(int init_led_count) {
+    if (init_led_count > CHAN_MAXLEDS)
+    {
+        printf("smileds: Error! Max %d leds supported!\n", CHAN_MAXLEDS);
+        return false;
+    }
+    led_count=init_led_count;
+
     map_devices();
     init_smi(LED_NCHANS > 8 ? SMI_16_BITS : SMI_8_BITS, SMI_TIMING);
     map_uncached_mem(&vc_mem, VC_MEM_SIZE);
-    setup_smi_dma(&vc_mem, TX_BUFF_LEN(chan_ledcount));
+    setup_smi_dma(&vc_mem, TX_BUFF_LEN(led_count));
 
     printf("smileds: Setting %u LED%s per channel, %u channels\n",
-           chan_ledcount, chan_ledcount == 1 ? "" : "s", LED_NCHANS);
+           led_count, led_count == 1 ? "" : "s", LED_NCHANS);
 }
 
 
 //set rgb values for a specific channel and pixel
-void set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
+//WARNING: it wont do any checks to save performance. So it will segfault if you use an illegal value for channel or pixel. :)
+void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
+
+
+//    printf("smileds: set pixel %d %d %d\n", channel, pixel, rgb);
+
     TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
 
 //    printf("setpixel %d %d\n", channel, pixel);
     // For each bit of the 24-bit RGB values..
     for (uint16_t n = 0; n < LED_NBITS; n++) {
         // 1st always is a high pulse on all lines
-        //XXX: do this one time ever?
+        //NOTE: optimized, do this one time ever
         tx_offset[0] = (TXDATA_T) 0xffff;
 
         // 2nd is the actual bit
@@ -211,24 +211,23 @@ void set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
     }
 }
 
-void start_send(int chan_led_count) {
+//NOTE: this can be optimized by getting rid of the swap_bytes and memcpy probably.
+void leds_send() {
+
 //    printf("send\n");
 #if LED_NCHANS <= 8
-    swap_bytes(tx_buffer, TX_BUFF_SIZE(chan_led_count));
+    swap_bytes(tx_buffer, TX_BUFF_SIZE(led_count));
 #endif
-    memcpy(txdata, tx_buffer, TX_BUFF_SIZE(chan_led_count));
+    memcpy(txdata, tx_buffer, TX_BUFF_SIZE(led_count));
     start_smi(&vc_mem);
 }
-
-
-
 
 
 void test()
 {
     const int leds=256;
 
-    init(leds);
+    leds_init(leds);
 
     int on=0;
     while(1)
@@ -240,73 +239,14 @@ void test()
             for (int c=0; c<8; c++)
             {
                 if (l==on)
-                    set_pixel(c,l,0x000010);
+                    leds_set_pixel(c, l, 0x000010);
                 else
-                    set_pixel(c,l,0x0);
+                    leds_set_pixel(c, l, 0x0);
             }
         }
-        start_send(leds);
+        leds_send(leds);
         usleep(1000000/60);
     }
 
 }
-
-
-// Set Tx data for 8 or 16 chans, 1 LED per chan, given 1 RGB val per chan
-// Logic 1 is 0.8us high, 0.4 us low, logic 0 is 0.4us high, 0.8us low
-void rgb_txdata(int *rgbs, TXDATA_T *txd) {
-    int i, n, msk;
-
-    // For each bit of the 24-bit RGB values..
-    for (n = 0; n < LED_NBITS; n++) {
-        // Mask to convert RGB to GRB, M.S bit first
-        msk = n == 0 ? 0x8000 : n == 8 ? 0x800000 : n == 16 ? 0x80 : msk >> 1;
-        // 1st byte or word is a high pulse on all lines
-        txd[0] = (TXDATA_T) 0xffff;
-        // 2nd has high or low bits from data
-        // 3rd is a low pulse
-        txd[1] = txd[2] = 0;
-        for (i = 0; i < LED_NCHANS; i++) {
-            if (rgbs[i] & msk)
-                txd[1] |= (1 << i);
-        }
-        txd += BIT_NPULSES;
-    }
-}
-
-
-//int testmode, chan_ledcount = 1;          // Command-line parameters
-//
-//void test() {
-//    int args = 0, n, oset = 0;
-//    testmode = 1;
-//    chan_ledcount = 10;
-////signal(SIGINT, terminate);
-//
-//init(chan_ledcount);
-//
-//    if (testmode) {
-//        while (1) {
-//            if (chan_ledcount < 2)
-//                rgb_txdata(oset & 1 ? off_rgbs : on_rgbs, tx_buffer);
-//            else {
-//                for (n = 0; n < chan_ledcount; n++) {
-//                    rgb_txdata(n == oset % chan_ledcount ? on_rgbs : off_rgbs,
-//                               &tx_buffer[LED_TX_OSET(n)]);
-//                }
-//            }
-//            oset++;
-//
-//
-//            start_send(chan_ledcount);
-//
-//
-//
-//            usleep(CHASE_MSEC * 1000);
-//        }
-//    }
-////terminate(0);
-////    return (0);
-//}
-
 

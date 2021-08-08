@@ -2,41 +2,42 @@
 #include <cstdio>
 #include "smileds.h"
 
+void ledsInit(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
 
-
-static void ArrayConsumer(const int32_t* array, size_t length) {
-//  for (size_t index = 0; index < length; index++) {
-//    fprintf(stderr, "array[%lu] = %d\n", index, array[index]);
-//  }
+    int ledCount = info[0].As<Napi::Number>();
+    if (!leds_init(ledCount))
+    {
+        Napi::TypeError::New(env, "Failed").ThrowAsJavaScriptException();
+    }
 }
 
-static  Napi::Value AcceptArrayBuffer (const Napi::CallbackInfo& info) {
-  if (info.Length() != 1) {
-    Napi::Error::New(info.Env(), "Expected exactly one argument")
-        .ThrowAsJavaScriptException();
-    return info.Env().Undefined();
-  }
-  if (!info[0].IsArrayBuffer()) {
-    Napi::Error::New(info.Env(), "Expected an ArrayBuffer")
-        .ThrowAsJavaScriptException();
-    return info.Env().Undefined();
-  }
+/**
+ * Usage: ledSetPixel(channel, ledNr, rgbColor)
+ * @param info
+ */
+void ledsSetPixel(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
 
-  Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+    int channel = info[0].As<Napi::Number>();
+    int pixel = info[1].As<Napi::Number>();
+    uint32_t rgb = info[2].As<Napi::Number>();
 
-  ArrayConsumer(reinterpret_cast<int32_t*>(buf.Data()),
-                buf.ByteLength() / sizeof(int32_t));
-
-
-
-  test();
-
-
-  return info.Env().Undefined();
+    leds_set_pixel(channel, pixel, rgb);
 }
+
+void ledsSend(const Napi::CallbackInfo& info) {
+    leds_send();
+}
+
+
+
 
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports["AcceptArrayBuffer"] = Napi::Function::New(env, AcceptArrayBuffer);
+    exports["ledsInit"] = Napi::Function::New(env, ledsInit);
+    exports["ledsSend"] = Napi::Function::New(env, ledsSend);
+    exports["ledsSetPixel"] = Napi::Function::New(env, ledsSetPixel);
+
   return exports;
 
 }
