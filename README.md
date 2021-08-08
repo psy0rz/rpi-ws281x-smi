@@ -26,7 +26,6 @@ Updating 8 x 8 x 32 leds at 60fps from nodejs uses around 18% CPU which it prett
  * Install cmake-js globally (otherwise it wont run as root)
  * Install build-essenentials and cmake and stuff.
  * Blacklist soundcard: https://github.com/beyondscreen/node-rpi-ws281x-native#raspberry-integrated-soundcard
- * Edit smi/rpi_dma_utils.h and select correct raspberry. (wont be neccesary later on)
 
 Since its a work in progress its still messy.
 

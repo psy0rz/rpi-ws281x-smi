@@ -17,6 +17,7 @@ extern "C"
     bool leds_init(int init_led_count);
     void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb);
     void leds_send();
+    void leds_clear();
     void test();
 
 

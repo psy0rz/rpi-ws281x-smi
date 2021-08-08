@@ -30,12 +30,17 @@ void ledsSend(const Napi::CallbackInfo& info) {
     leds_send();
 }
 
+void ledsClear(const Napi::CallbackInfo& info) {
+    leds_clear();
+}
+
 
 
 
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports["ledsInit"] = Napi::Function::New(env, ledsInit);
     exports["ledsSend"] = Napi::Function::New(env, ledsSend);
+    exports["ledsClear"] = Napi::Function::New(env, ledsClear);
     exports["ledsSetPixel"] = Napi::Function::New(env, ledsSetPixel);
 
   return exports;

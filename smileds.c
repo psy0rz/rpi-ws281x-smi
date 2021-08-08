@@ -1,6 +1,7 @@
 //
 // Created by psy on 07-08-21.
 // Based on rpi_pixleds.c from Jeremy P Bentham
+// This is basically the library-version of that program.
 //
 
 #define _DEFAULT_SOURCE
@@ -190,7 +191,6 @@ void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
 
     TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
 
-//    printf("setpixel %d %d\n", channel, pixel);
     // For each bit of the 24-bit RGB values..
     for (uint16_t n = 0; n < LED_NBITS; n++) {
         // 1st always is a high pulse on all lines
@@ -211,13 +211,28 @@ void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
     }
 }
 
-//NOTE: this can be optimized by getting rid of the swap_bytes and memcpy probably.
+//clear all leds on all channels in an efficient way
+void leds_clear()
+{
+    TXDATA_T *tx_offset=&tx_buffer[LED_TX_OSET(0)];
+
+    for (uint16_t l=0; l<led_count*LED_NBITS; l++)
+    {
+        // tx_offset[0] always 0xffff
+        tx_offset[1]=0x0000;
+        // tx_offset[2] always 0x0000
+        tx_offset += BIT_NPULSES;
+    }
+}
+
 void leds_send() {
 
 //    printf("send\n");
 #if LED_NCHANS <= 8
+    //NOTE: perhaps we can optimize this away. (currenly isnt a bottleneck)
     swap_bytes(tx_buffer, TX_BUFF_SIZE(led_count));
 #endif
+    //NOTE: due to caching its more efficient to use a memcpy instead of direct buffer manipulation.
     memcpy(txdata, tx_buffer, TX_BUFF_SIZE(led_count));
     start_smi(&vc_mem);
 }
