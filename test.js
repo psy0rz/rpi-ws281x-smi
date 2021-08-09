@@ -4,21 +4,32 @@ console.log("running test")
 binding.init(256)
 
 let nr=0;
-setInterval(()=>{
+
+let count=0;
+let start=0;
+
+//performance testing
+while(1) {
 
     binding.clear();
-    nr=(nr+1)%256;
-    // for (let l=0; l<256; l++) {
-    //     for (let c = 0; c < 8; c++) {
-    //
-    //     if (nr == l)
-    // if (nr!=3)
-         binding.setPixel(5, 0, nr<<16);
-         //     else
-         //         binding.setPixel(c, l, 0x0);
-         // }
-     // }
-    binding.send();
+    nr = (nr + 1) % 256;
+    for (let l = 0; l < 256; l++) {
+        for (let c = 0; c < 16; c++) {
+            if (l === nr)
+                binding.setPixel(c, l, 0x40)
+            else
+                binding.setPixel(c, l, 0x0);
+        }
+    }
+   binding.send();
 
-},1000/60);
+    count++;
+    if (Date.now()-start>1000)
+    {
+        console.log(count, " fps");
+        count=0;
+        start=Date.now();
+    }
+
+}
 

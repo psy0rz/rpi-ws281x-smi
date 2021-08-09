@@ -187,6 +187,8 @@ bool leds_init(int init_led_count) {
         tx_offset += BIT_NPULSES;
     };
 
+    leds_clear();
+
 
     printf("smileds: Setting %u LED%s per channel, %u channels\n",
            led_count, led_count == 1 ? "" : "s", LED_NCHANS);
@@ -212,7 +214,7 @@ void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
     uint32_t rgb_mask=1 << 23;
     for (uint8_t n = 0; n < LED_NBITS; n++) {
 
-//         tx_offset[0] always 0xffff
+        // tx_offset[0] always 0xffff
         // tx_offset[1] is the actual bit
         if (rgb & rgb_mask)
             tx_offset[1]|= channel_on_mask;

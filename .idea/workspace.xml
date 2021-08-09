@@ -11,14 +11,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="autodetect and dummy module on normal pc">
+    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="fixes. 16 channels by default now (8 no longer supported)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autoupload.sh" beforeDir="false" afterPath="$PROJECT_DIR$/autoupload.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smi/rpi_dma_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/smi/rpi_dma_utils.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/smileds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
@@ -86,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628326619853</updated>
-      <workItem from="1628326622129" duration="47164000" />
+      <workItem from="1628326622129" duration="48835000" />
     </task>
     <task id="LOCAL-00001" summary="bla">
       <created>1628345636325</created>
@@ -151,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628456718189</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixes. 16 channels by default now (8 no longer supported)">
+      <created>1628511332151</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1628511332151</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +175,7 @@
     <MESSAGE value="eigen werkt" />
     <MESSAGE value="wip" />
     <MESSAGE value="autodetect and dummy module on normal pc" />
-    <option name="LAST_COMMIT_MESSAGE" value="autodetect and dummy module on normal pc" />
+    <MESSAGE value="fixes. 16 channels by default now (8 no longer supported)" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes. 16 channels by default now (8 no longer supported)" />
   </component>
 </project>
