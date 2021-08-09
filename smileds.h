@@ -11,9 +11,9 @@ union color_t {
     uint32_t packed; //packed presentation
     struct  // component-wise representation
     {
+        uint8_t b;
         uint8_t r;
         uint8_t g;
-        uint8_t b;
         uint8_t a;
     } component ;
 };

@@ -11,12 +11,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="fixes. 16 channels by default now (8 no longer supported)">
+    <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="use color_t struct and params">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smileds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/smileds.h" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628326619853</updated>
-      <workItem from="1628326622129" duration="50993000" />
+      <workItem from="1628326622129" duration="51759000" />
     </task>
     <task id="LOCAL-00001" summary="bla">
       <created>1628345636325</created>
@@ -161,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628513000426</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="use color_t struct and params">
+      <created>1628515175843</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1628515175843</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +190,7 @@
     <MESSAGE value="wip" />
     <MESSAGE value="autodetect and dummy module on normal pc" />
     <MESSAGE value="fixes. 16 channels by default now (8 no longer supported)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes. 16 channels by default now (8 no longer supported)" />
+    <MESSAGE value="use color_t struct and params" />
+    <option name="LAST_COMMIT_MESSAGE" value="use color_t struct and params" />
   </component>
 </project>

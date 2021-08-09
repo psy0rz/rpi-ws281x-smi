@@ -29,6 +29,12 @@ Updating 8 x 8 x 32 leds at 60fps from nodejs uses around 18% CPU which it prett
 
 Since its a work in progress its still messy.
 
+## Pinout
+
+![Pinout](https://iosoftblog.files.wordpress.com/2020/07/rpi_smi_pinout.png)
+
+https://iosoftblog.files.wordpress.com/2020/07/rpi_smi_pinout.png
+
 
 
 
