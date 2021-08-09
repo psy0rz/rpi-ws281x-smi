@@ -8,6 +8,16 @@ let nr=0;
 let count=0;
 let start=0;
 
+/*
+327  fps
+340  fps
+345  fps
+353  fps
+329  fps
+327  fps
+
+ */
+
 //performance testing
 while(1) {
 
@@ -16,9 +26,9 @@ while(1) {
     for (let l = 0; l < 256; l++) {
         for (let c = 0; c < 16; c++) {
             if (l === nr)
-                binding.setPixel(c, l, 0x40)
+                binding.setPixel(c, l, 128,0,0)
             else
-                binding.setPixel(c, l, 0x0);
+                binding.setPixel(c, l, 0,0,0);
         }
     }
    binding.send();

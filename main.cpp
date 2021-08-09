@@ -21,9 +21,15 @@ void ledsSetPixel(const Napi::CallbackInfo& info) {
 
     int channel = info[0].As<Napi::Number>();
     int pixel = info[1].As<Napi::Number>();
-    uint32_t rgb = info[2].As<Napi::Number>();
 
-    leds_set_pixel(channel, pixel, rgb);
+    color_t color;
+
+
+    color.component.r=(uint32_t )info[2].As<Napi::Number>();
+    color.component.g=(uint32_t )info[3].As<Napi::Number>();
+    color.component.b=(uint32_t )info[4].As<Napi::Number>();
+
+    leds_set_pixel(channel, pixel, color);
 }
 
 void ledsSend(const Napi::CallbackInfo& info) {

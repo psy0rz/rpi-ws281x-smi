@@ -76,6 +76,7 @@ TXDATA_T *txdata;                       // Pointer to uncached Tx data buffer
 TXDATA_T tx_buffer[TX_BUFF_LEN(CHAN_MAXLEDS)]={0};  // Tx buffer for assembling data
 
 
+
 // Map GPIO, DMA and SMI registers into virtual mem (user space)
 // If any of these fail, program will be terminated
 void map_devices(void) {
@@ -197,8 +198,8 @@ bool leds_init(int init_led_count) {
 
 //set rgb values for a specific channel and pixel
 //WARNING: it wont do any checks to save performance. So it will segfault if you use an illegal value for channel or pixel. :)
-void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
-
+void leds_set_pixel(uint8_t  channel, uint16_t  pixel,  union color_t   color)
+{
 
 //    printf("smileds: set pixel %d %d %d\n", channel, pixel, rgb);
 //    printf("is %d\n", LED_TX_OSET(pixel));
@@ -216,7 +217,7 @@ void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
 
         // tx_offset[0] always 0xffff
         // tx_offset[1] is the actual bit
-        if (rgb & rgb_mask)
+        if (color.packed & rgb_mask)
             tx_offset[1]|= channel_on_mask;
         else
             tx_offset[1]&= channel_off_mask;
@@ -256,30 +257,30 @@ void leds_send() {
 }
 
 
-void test()
-{
-    const int leds=256;
-
-    leds_init(leds);
-
-    int on=0;
-    while(1)
-    {
-        on=(on+1)%leds;
-        for (int l=0; l<leds; l++)
-        {
-
-            for (int c=0; c<8; c++)
-            {
-                if (l==on)
-                    leds_set_pixel(c, l, 0x000010);
-                else
-                    leds_set_pixel(c, l, 0x0);
-            }
-        }
-        leds_send(leds);
-        usleep(1000000/60);
-    }
-
-}
+//void test()
+//{
+//    const int leds=256;
+//
+//    leds_init(leds);
+//
+//    int on=0;
+//    while(1)
+//    {
+//        on=(on+1)%leds;
+//        for (int l=0; l<leds; l++)
+//        {
+//
+//            for (int c=0; c<8; c++)
+//            {
+//                if (l==on)
+//                    leds_set_pixel(c, l, 0x000010);
+//                else
+//                    leds_set_pixel(c, l, 0x0);
+//            }
+//        }
+//        leds_send(leds);
+//        usleep(1000000/60);
+//    }
+//
+//}
 
