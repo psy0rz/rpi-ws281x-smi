@@ -1,4 +1,4 @@
-# Drive WS281x ledstrips with 8 or 16 parallel channels on a Raspberry
+# Drive WS281x ledstrips with 8 or 16 parallel channels on a Raspberry with NodeJS
 
 __Still a work in progress__
 
@@ -6,7 +6,7 @@ This uses the Secondary Memory Interface (SMI) that all the Rapsberry PI's have.
 
 Its based on the excellent ideas and code of Jeremy P Bentham.
 
-Look at https://hackaday.com/2020/10/12/running-way-more-led-strips-on-a-raspberry-pi-with-dma/ for the technical details.
+Look at https://iosoft.blog/2020/09/29/raspberry-pi-multi-channel-ws2812/ for the technical details.
 
 The code this is based on: https://github.com/jbentham/rpi .
 

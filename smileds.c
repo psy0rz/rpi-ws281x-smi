@@ -26,7 +26,7 @@
 #endif
 
 #define LED_D0_PIN      8   // GPIO pin for D0 output
-#define LED_NCHANS      8   // Number of LED channels (8 or 16)
+#define LED_NCHANS      16   // Number of LED channels (8 or 16)
 #define LED_NBITS       24  // Number of data bits per LED
 #define LED_PREBITS     4   // Number of zero bits before LED data
 #define LED_POSTBITS    4   // Number of zero bits after LED data
@@ -73,7 +73,7 @@ volatile SMI_DCD_REG *smi_dcd;
 
 uint16_t  led_count=0;                  //used number of leds
 TXDATA_T *txdata;                       // Pointer to uncached Tx data buffer
-TXDATA_T tx_buffer[TX_BUFF_LEN(CHAN_MAXLEDS)];  // Tx buffer for assembling data
+TXDATA_T tx_buffer[TX_BUFF_LEN(CHAN_MAXLEDS)]={0};  // Tx buffer for assembling data
 
 
 // Map GPIO, DMA and SMI registers into virtual mem (user space)
@@ -177,6 +177,17 @@ bool leds_init(int init_led_count) {
     map_uncached_mem(&vc_mem, VC_MEM_SIZE);
     setup_smi_dma(&vc_mem, TX_BUFF_LEN(led_count));
 
+    //initalize bit pattern
+    TXDATA_T *tx_offset=&tx_buffer[LED_TX_OSET(0)];
+    for (uint32_t b=0; b<led_count*LED_NBITS; b++)
+    {
+        tx_offset[0]=0xff; //stays this way
+        tx_offset[1]=0x00; //will be changed via setPixel
+        tx_offset[2]=0x00; //stays this way
+        tx_offset += BIT_NPULSES;
+    };
+
+
     printf("smileds: Setting %u LED%s per channel, %u channels\n",
            led_count, led_count == 1 ? "" : "s", LED_NCHANS);
 }
@@ -188,25 +199,29 @@ void leds_set_pixel(uint8_t channel, uint16_t pixel, uint32_t rgb) {
 
 
 //    printf("smileds: set pixel %d %d %d\n", channel, pixel, rgb);
+//    printf("is %d\n", LED_TX_OSET(pixel));
+
+    if (pixel>=led_count)
+        return;
 
     TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
 
     // For each bit of the 24-bit RGB values..
-    for (uint16_t n = 0; n < LED_NBITS; n++) {
-        // 1st always is a high pulse on all lines
-        //NOTE: optimized, do this one time ever
-        tx_offset[0] = (TXDATA_T) 0xffff;
+    const uint16_t channel_on_mask=(1 << channel);
+    const uint16_t channel_off_mask=~(1 << channel);
+    uint32_t rgb_mask=1 << 23;
+    for (uint8_t n = 0; n < LED_NBITS; n++) {
 
-        // 2nd is the actual bit
-        if (rgb & (1 << n))
-            tx_offset[1]|= ( 1 << channel );
+//         tx_offset[0] always 0xffff
+        // tx_offset[1] is the actual bit
+        if (rgb & rgb_mask)
+            tx_offset[1]|= channel_on_mask;
         else
-            tx_offset[1]&= ~( 1 << channel );
-
-        // 3rd alawys is a low pulse on all lines
-        tx_offset[2] = 0;
+            tx_offset[1]&= channel_off_mask;
+        // tx_offset[2] always 0x0000
 
         tx_offset += BIT_NPULSES;
+        rgb_mask=rgb_mask>>1;
 
     }
 }
@@ -216,10 +231,10 @@ void leds_clear()
 {
     TXDATA_T *tx_offset=&tx_buffer[LED_TX_OSET(0)];
 
-    for (uint16_t l=0; l<led_count*LED_NBITS; l++)
+    for (uint32_t b=0; b<led_count*LED_NBITS; b++)
     {
         // tx_offset[0] always 0xffff
-        tx_offset[1]=0x0000;
+        tx_offset[1]=0x00;
         // tx_offset[2] always 0x0000
         tx_offset += BIT_NPULSES;
     }
@@ -228,10 +243,11 @@ void leds_clear()
 void leds_send() {
 
 //    printf("send\n");
-#if LED_NCHANS <= 8
-    //NOTE: perhaps we can optimize this away. (currenly isnt a bottleneck)
-    swap_bytes(tx_buffer, TX_BUFF_SIZE(led_count));
-#endif
+//#if LED_NCHANS <= 8
+//    //NOTE: perhaps we can optimize this away. (currenly isnt a bottleneck)
+//
+//    swap_bytes(tx_buffer, TX_BUFF_SIZE(led_count));
+//#endif
     //NOTE: due to caching its more efficient to use a memcpy instead of direct buffer manipulation.
     memcpy(txdata, tx_buffer, TX_BUFF_SIZE(led_count));
     start_smi(&vc_mem);
