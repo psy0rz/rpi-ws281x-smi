@@ -14,7 +14,9 @@
     <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="use color_t struct and params">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smileds.h" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smileds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +56,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="CLionExternalConfigurable" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
     <configuration name="Unnamed" type="CLionExternalRunConfiguration" factoryName="Application" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rpi_ws281x_smi" TARGET_NAME="cmake-js" CONFIG_NAME="cmake-js">
@@ -80,7 +83,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628326619853</updated>
-      <workItem from="1628326622129" duration="51759000" />
+      <workItem from="1628326622129" duration="54294000" />
+      <workItem from="1629827719663" duration="26000" />
+      <workItem from="1629827831646" duration="344000" />
+      <workItem from="1629828256635" duration="126000" />
+      <workItem from="1629828464225" duration="2563000" />
     </task>
     <task id="LOCAL-00001" summary="bla">
       <created>1628345636325</created>
@@ -166,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628515175843</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="use color_t struct and params">
+      <created>1628516301109</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1628516301109</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,6 +196,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bla" />

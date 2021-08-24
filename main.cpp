@@ -24,10 +24,10 @@ void ledsSetPixel(const Napi::CallbackInfo& info) {
 
     color_t color;
 
-
     color.component.r=(uint32_t )info[2].As<Napi::Number>();
     color.component.g=(uint32_t )info[3].As<Napi::Number>();
     color.component.b=(uint32_t )info[4].As<Napi::Number>();
+    color.component.a=(uint32_t )(((float )(info[5].As<Napi::Number>()))*255); //every extra parameter takes about 10fps in our 16*256 led test.
 
     leds_set_pixel(channel, pixel, color);
 }

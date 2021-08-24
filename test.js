@@ -26,9 +26,9 @@ while(1) {
     for (let l = 0; l < 256; l++) {
         for (let c = 0; c < 16; c++) {
             if (l === nr)
-                binding.setPixel(c, l, 128,0,0)
+                binding.setPixel(c, l, 255,0,0,0.1)
             else
-                binding.setPixel(c, l, 0,0,0);
+                binding.setPixel(c, l, 0,0,0,0.1);
         }
     }
    binding.send();

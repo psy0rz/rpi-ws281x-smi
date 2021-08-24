@@ -75,6 +75,8 @@ uint16_t  led_count=0;                  //used number of leds
 TXDATA_T *txdata;                       // Pointer to uncached Tx data buffer
 TXDATA_T tx_buffer[TX_BUFF_LEN(CHAN_MAXLEDS)]={0};  // Tx buffer for assembling data
 
+//this is only needed for alpha bending
+union color_t color_buffer[LED_NCHANS][CHAN_MAXLEDS];
 
 
 // Map GPIO, DMA and SMI registers into virtual mem (user space)
@@ -197,8 +199,7 @@ bool leds_init(int init_led_count) {
 
 
 //set rgb values for a specific channel and pixel
-//WARNING: it wont do any checks to save performance. So it will segfault if you use an illegal value for channel or pixel. :)
-void leds_set_pixel(uint8_t  channel, uint16_t  pixel,  union color_t   color)
+void leds_set_pixel(uint8_t  channel, uint16_t  pixel,  union color_t color)
 {
 
 //    printf("smileds: set pixel %d %d %d\n", channel, pixel, rgb);
@@ -207,12 +208,30 @@ void leds_set_pixel(uint8_t  channel, uint16_t  pixel,  union color_t   color)
     if (pixel>=led_count)
         return;
 
-    TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
+    if (channel>LED_NCHANS)
+        return;
+
+    //need to do alpha blending with previous value?
+    if (color.component.a==255)
+    {
+        //no blending, just store (in case there will be another pixel that will be blended on top of this one)
+        color_buffer[channel][pixel]=color;
+    }
+    else
+    {
+        const uint8_t old_a=1-color.component.a;
+        color.component.r=color_buffer[channel][pixel].component.r*old_a/255 + color.component.r*color.component.a/255;
+        color.component.g=color_buffer[channel][pixel].component.g*old_a/255 + color.component.g*color.component.a/255;
+        color.component.b=color_buffer[channel][pixel].component.b*old_a/255 + color.component.b*color.component.a/255;
+        color_buffer[channel][pixel]=color;
+    }
+
 
     // For each bit of the 24-bit RGB values..
     const uint16_t channel_on_mask=(1 << channel);
     const uint16_t channel_off_mask=~(1 << channel);
     uint32_t rgb_mask=1 << 23;
+    TXDATA_T *tx_offset = &tx_buffer[LED_TX_OSET(pixel)];
     for (uint8_t n = 0; n < LED_NBITS; n++) {
 
         // tx_offset[0] always 0xffff
@@ -241,6 +260,8 @@ void leds_clear()
         // tx_offset[2] always 0x0000
         tx_offset += BIT_NPULSES;
     }
+    memset(color_buffer,0,sizeof(color_buffer));
+
 }
 
 void leds_send() {

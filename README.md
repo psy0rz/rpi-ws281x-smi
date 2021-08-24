@@ -1,4 +1,4 @@
-# Drive WS281x ledstrips with 8 or 16 parallel channels on a Raspberry with NodeJS
+# Drive WS281x ledstrips with 16 parallel channels on a Raspberry with NodeJS
 
 __Still a work in progress__
 
