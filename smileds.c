@@ -184,7 +184,11 @@ bool leds_init(int init_led_count) {
     TXDATA_T *tx_offset=&tx_buffer[LED_TX_OSET(0)];
     for (uint32_t b=0; b<led_count*LED_NBITS; b++)
     {
+#if LED_NCHANS <= 8
         tx_offset[0]=0xff; //stays this way
+#else
+        tx_offset[0]=0xffff; //stays this way
+#endif
         tx_offset[1]=0x00; //will be changed via setPixel
         tx_offset[2]=0x00; //stays this way
         tx_offset += BIT_NPULSES;
