@@ -1,6 +1,6 @@
 # Drive WS281x ledstrips with 16 parallel channels on a Raspberry with NodeJS
 
-__Still a work in progress__
+Used by [Ledder](https://github.com/psy0rz/ledder)
 
 This uses the Secondary Memory Interface (SMI) that all the Rapsberry PI's have.
 
