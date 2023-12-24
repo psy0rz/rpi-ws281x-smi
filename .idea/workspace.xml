@@ -21,10 +21,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78fc8a7f-07cd-4974-9d14-2f305617f891" name="Changes" comment="alpha bending">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/smileds.c" beforeDir="false" afterPath="$PROJECT_DIR$/smileds.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
@@ -105,7 +105,7 @@
       <workItem from="1629827831646" duration="344000" />
       <workItem from="1629828256635" duration="126000" />
       <workItem from="1629828464225" duration="4468000" />
-      <workItem from="1703427593310" duration="4914000" />
+      <workItem from="1703427593310" duration="7684000" />
     </task>
     <task id="LOCAL-00001" summary="bla">
       <created>1628345636325</created>
