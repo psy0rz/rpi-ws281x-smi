@@ -55,14 +55,14 @@ reboot
 
 Confirm that there are no snd modules running with lsmod.
 
-### 2. Install requirements
+### 3. Install requirements
 
 ```
 apt update
 apt install -y nodejs npm cmake 
 ```
 
-### 3. Compile 
+### 4. Compile 
 
 Compile it, and pay special attention to the device detection:
 
@@ -94,11 +94,14 @@ This should show a sliding RED led on all channels and also show the maximum ach
 
 Note that this FPS might be higher than the actual speed of the ws2812 protocol, resulting in frame-skips. This is just to get an indication of the overhead.
 
-If you get lots of glitches, check if the snd drivers are still loaded, and check your wiring.
+### Glitches?
 
-You also might need level converters from 3v3 to 5v, like a SN74AHCT125N 
+There can be multiple reasons for leds glitching.
 
-
+* Check if the snd drivers are still loaded
+* You might need level converters from 3v3 to 5v, like a SN74AHCT125N.
+* Try adding 1n or 100p capacitors to 1 or more raspberry output pins.
+* Especially with longer wiring a level converter + 1n caps on the raspberry output pins seem to do the trick.
 
 
 ### Next
