@@ -31,7 +31,7 @@
 #define LED_PREBITS     4   // Number of zero bits before LED data
 #define LED_POSTBITS    4   // Number of zero bits after LED data
 #define BIT_NPULSES     3   // Number of O/P pulses per LED bit
-#define CHAN_MAXLEDS    512  // Maximum number of LEDs per channel
+#define CHAN_MAXLEDS    450  // Maximum number of LEDs per channel. NOTE: more than 450 isnt possible somehow.
 #define REQUEST_THRESH  2   // DMA request threshold
 #define DMA_CHAN        10  // DMA channel to use
 

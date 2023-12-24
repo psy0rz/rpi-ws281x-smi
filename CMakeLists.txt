@@ -6,7 +6,10 @@ if (EXISTS "/proc/device-tree/model")
     MESSAGE("rpi-ws281x-smi: Raspberry device string: ${PI_MODEL_STR}")
 
     # look in rpi_dma_utils.h for more info!
-    if (${PI_MODEL_STR} MATCHES "Pi Model" OR ${PI_MODEL_STR} MATCHES "Pi Zero")
+    if (${PI_MODEL_STR} MATCHES "Pi 2" OR ${PI_MODEL_STR} MATCHES "Pi 3" OR ${PI_MODEL_STR} MATCHES "Pi Zero 2")
+        MESSAGE("rpi-ws281x-smi: Configuring as Pi 2 or Pi 3 or Pi Zero 2")
+        add_definitions(-DPHYS_REG_BASE=0x3F000000)
+    elseif (${PI_MODEL_STR} MATCHES "Pi Model" OR ${PI_MODEL_STR} MATCHES "Pi Zero")
         MESSAGE("rpi-ws281x-smi: Configuring as Pi zero or Pi 1")
         add_definitions(-DPHYS_REG_BASE=0x20000000)
     elseif (${PI_MODEL_STR} MATCHES "Pi 2" OR ${PI_MODEL_STR} MATCHES "Pi 3")
