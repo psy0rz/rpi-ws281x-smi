@@ -29,7 +29,7 @@
 
 // Location of peripheral registers in physical memory
 // #define PHYS_REG_BASE  0x20000000  // Pi Zero or 1
-#define PHYS_REG_BASE 0x3F000000  // Pi 2 or 3
+uintptr_t PHYS_REG_BASE = 0x3F000000;  // Pi 2 or 3
 // #define PHYS_REG_BASE  0xFE000000  // Pi 4
 
 // Location of peripheral registers in bus memory
@@ -370,7 +370,7 @@ void close_mbox(int fd) {
 }
 
 // Send message to mailbox, return first response int, 0 if error
-uint32_t msg_mbox(int fd, VC_MSG* msgp) {
+uintptr_t msg_mbox(int fd, VC_MSG* msgp) {
   uint32_t ret = 0, i;
 
   for (i = msgp->dlen / 4; i <= msgp->blen / 4; i += 4)

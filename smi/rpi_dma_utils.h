@@ -51,15 +51,15 @@ typedef struct {
 } MEM_MAP;
 
 // Get virtual 8 and 32-bit pointers to register
-#define REG8(m, x) ((volatile uint8_t*)((uint32_t)(m.virt) + (uint32_t)(x)))
-#define REG32(m, x) ((volatile uint32_t*)((uint32_t)(m.virt) + (uint32_t)(x)))
+#define REG8(m, x) ((volatile uint8_t*)((uintptr_t)(m.virt) + (uintptr_t)(x)))
+#define REG32(m, x) ((volatile uint32_t*)((uintptr_t)(m.virt) + (uintptr_t)(x)))
 // Get bus address of register
-#define REG_BUS_ADDR(m, x) ((uint32_t)(m.bus) + (uint32_t)(x))
+#define REG_BUS_ADDR(m, x) ((m.bus) + (x))
 // Convert uncached memory virtual address to bus address
 #define MEM_BUS_ADDR(mp, a) \
-  ((uint32_t)a - (uint32_t)mp->virt + (uint32_t)mp->bus)
+  ((uintptr_t)a - (uintptr_t)mp->virt + (uintptr_t)mp->bus)
 // Convert bus address to physical address (for mmap)
-#define BUS_PHYS_ADDR(a) ((void*)((uint32_t)(a) & ~0xC0000000))
+#define BUS_PHYS_ADDR(a) ((void*)((uintptr_t)(a) & ~0xC0000000))
 
 // GPIO register definitions
 #define GPIO_BASE (PHYS_REG_BASE + 0x200000)
@@ -142,13 +142,13 @@ typedef struct {
 
 // DMA control block (must be 32-byte aligned)
 typedef struct {
-  uint32_t ti,  // Transfer info
-      srce_ad,  // Source address
-      dest_ad,  // Destination address
-      tfr_len,  // Transfer length
-      stride,   // Transfer stride
-      next_cb,  // Next control block
-      debug,    // Debug register, zero in control block
+  uint32_t ti,       // Transfer info
+      srce_ad;       // Source address
+  void* dest_ad;     // Destination address
+  uint32_t tfr_len,  // Transfer length
+      stride,        // Transfer stride
+      next_cb,       // Next control block
+      debug,         // Debug register, zero in control block
       unused;
 } DMA_CB __attribute__((aligned(32)));
 
@@ -188,7 +188,7 @@ uint8_t gpio_in(int pin);
 void disp_mode_vals(uint32_t mode);
 int open_mbox(void);
 void close_mbox(int fd);
-uint32_t msg_mbox(int fd, VC_MSG* msgp);
+uintptr_t msg_mbox(int fd, VC_MSG* msgp);
 void* map_segment(void* addr, int size);
 void unmap_segment(void* addr, int size);
 uint32_t alloc_vc_mem(int fd, uint32_t size, VC_ALLOC_FLAGS flags);
