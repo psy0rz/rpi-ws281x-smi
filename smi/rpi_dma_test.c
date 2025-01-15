@@ -29,7 +29,7 @@
 
 // Location of peripheral registers in physical memory
 // #define PHYS_REG_BASE  0x20000000  // Pi Zero or 1
-uintptr_t PHYS_REG_BASE = 0x3F000000;  // Pi 2 or 3
+#define PHYS_REG_BASE = 0x3F000000;  // Pi 2 or 3
 // #define PHYS_REG_BASE  0xFE000000  // Pi 4
 
 // Location of peripheral registers in bus memory
