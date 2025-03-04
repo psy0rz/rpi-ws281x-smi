@@ -23,6 +23,8 @@ Updating 8 x 8 x 32 leds at 60fps from nodejs uses around 18% CPU which it prett
 
 ## How to
 
+**Note: If you want to use it with ledder, just use the docker container instructions here: https://github.com/psy0rz/ledder/wiki/Raspberry-PI-with-WS2812-display**
+
 ### 1. Flash Rapsberry PI OS Lite 32-bit. (Debian bookworm/12) on your SDcard.
 
 Make sure to use a **32-bit** OS.
